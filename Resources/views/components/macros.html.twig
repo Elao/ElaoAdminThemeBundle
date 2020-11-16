@@ -1,0 +1,15 @@
+{% macro card(value, label) %}
+    <div class="card">
+        <span>{{ value }}</span>
+        {{ label }}
+    </div>
+{% endmacro %}
+
+{% macro button(label, options = {}) %}
+<button class="button {{ options.style|default('') }}">
+    {% if options.icon %}
+        <i class="icon icon--{{ options.icon }}" aria-hidden="true"></i>
+    {% endif %}
+    {{ label }}
+</button>
+{% endmacro %}

@@ -1,0 +1,33 @@
+{% block pagination %}
+<ul class="pagination">
+    {% if previous %}
+        <li class="pagination__item pagination__item--previous">
+            <a href="{{ previous.url }}">
+                <i class="icon icon--chevron-before" aria-hidden="true"></i>
+                <span>{{ previous.label }}</span>
+            </a>
+        </li>
+    {% endif %}
+    {% for row in pages|batch(pages|length / 2) %}
+        {% for page in row %}
+            <li class="pagination__item {{ page.active ? 'pagination__item--active' : '' }} {{ page.hide_mobile ? 'sm-hidden' : 'null'}}">
+                <a href="{{ page.url }}">{{ page.label }}</a>
+            </li>
+        {% endfor %}
+        {% if elipsis|default(true) and loop.first %}
+            <li class="pagination__ellipsis">
+                <i class="icon icon--dots" aria-hiddent="true"></i>
+                <span class="sr-only">...</span>
+            </li>
+        {% endif %}
+    {% endfor %}
+    {% if next %}
+        <li class="pagination__item pagination__item--next">
+            <a href="{{ next.url }}">
+                <i class="icon icon--chevron-next" aria-hidden="true"></i>
+                <span>{{ next.label }}</span>
+            </a>
+        </li>
+    {% endif %}
+</ul>
+{% endblock %}

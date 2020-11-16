@@ -1,0 +1,17 @@
+{% block table %}
+    <div class="data-table">
+        {% block table_header %}{% endblock %}
+        <div class="data-table__content">
+            {% block content %}
+                <table>
+                    <thead>
+                        {% block table_head %}{% endblock %}
+                    </thead>
+                    <tbody>
+                        {% block table_body %}{% endblock %}
+                    </tbody>
+                </table>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

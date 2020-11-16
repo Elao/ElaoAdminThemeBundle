@@ -1,0 +1,23 @@
+{% block drop %}
+<div class="drop drop--{% block drop_direction 'left' %}">
+    <button class="drop__button tooltip tooltip--{% block tooltip_direction 'left' %}" data-tooltip="{{ block('tooltip_label') }}">
+        {% block tooltip_icon_element %}
+            <i class="icon icon--{% block tooltip_icon 'dots' %}" aria-hidden="true"></i>
+        {% endblock %}
+        <span class="sr-only">{% block tooltip_label '' %}</span>
+    </button>
+    <ul class="drop__menu">
+        {% block drop_menu %}
+            {% for item in menu %}
+                <li>
+                    {% block drop_menu_item %}
+                        <a href="{{ item.url }}">
+                            {{ item.label }}
+                        </a>
+                    {% endblock %}
+                </li>
+            {% endfor %}
+        {% endblock %}
+    </ul>
+</div>
+{% endblock %}
