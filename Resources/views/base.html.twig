@@ -99,28 +99,32 @@
             {% block main %}
                 <main>
                     {% block nav_secondary %}
-                        <nav class="secondary-nav">
-                            <ul>
-                                {% set item_class = 'secondary-nav__item' %}
-                                {% set item_active_class = 'secondary-nav__item--active' %}
-                                {% for item in menu_secondary|default([]) %}
-                                    {{ block('menu_item') }}
-                                {% endfor %}
-                            </ul>
-                        </nav>
+                        {% if menu_secondary is defined %}
+                            <nav class="secondary-nav">
+                                <ul>
+                                    {% set item_class = 'secondary-nav__item' %}
+                                    {% set item_active_class = 'secondary-nav__item--active' %}
+                                    {% for item in menu_secondary %}
+                                        {{ block('menu_item') }}
+                                    {% endfor %}
+                                </ul>
+                            </nav>
+                        {% endif %}
                     {% endblock %}
                     {% block content_container %}
                         <div class="content">
                             {% block nav_tertiary %}
-                                <nav class="tertiary-nav">
-                                    <ul>
-                                        {% set item_class = 'tertiary-nav__item' %}
-                                        {% set item_active_class = 'tertiary-nav__item--active' %}
-                                        {% for item in menu_tertiary|default([]) %}
-                                            {{ block('menu_item') }}
-                                        {% endfor %}
-                                    </ul>
-                                </nav>
+                                {% if menu_tertiary is defined %}
+                                    <nav class="tertiary-nav">
+                                        <ul>
+                                            {% set item_class = 'tertiary-nav__item' %}
+                                            {% set item_active_class = 'tertiary-nav__item--active' %}
+                                            {% for item in menu_tertiary %}
+                                                {{ block('menu_item') }}
+                                            {% endfor %}
+                                        </ul>
+                                    </nav>
+                                {% endif %}
                             {% endblock %}
                             <div class="container">
                                 {% block content '' %}
