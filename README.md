@@ -18,7 +18,7 @@ Yourbase template should extends elao admin theme base:
 {# HEAD #}
 
 {% block stylesheets %}
-    {{ encore_entry_link_tags('style') }}
+    {{ encore_entry_link_tags('app') }}
 {% endblock %}
 
 {% block javascripts %}
@@ -55,7 +55,6 @@ Yourbase template should extends elao admin theme base:
     { label: 'Profil', route: 'profile',  },
     { label: 'Déconnexion', url: '/logout',  },
 ] %}
-
 ```
 
 ### Page

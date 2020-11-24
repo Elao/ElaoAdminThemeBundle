@@ -8,6 +8,13 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 return static function (ContainerConfigurator $container): void {
+    // Symfony 4 support
+    if (!function_exists('service')) {
+        function service($id) {
+            return ref($id);
+        }
+    }
+
     $container->services()
 
         ->set(MenuExtension::class)
