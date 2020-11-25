@@ -38,22 +38,33 @@ class Builder
             return (bool) $item['active'];
         }
 
-        return (isset($item['root']) && $this->isCurrentRoot($item['root']))
-            || (isset($item['branch']) && $this->isCurrentBranch($item['branch']))
-            || (isset($item['route']) && $this->isCurrentRoute($item['route']));
+        return $this->isCurrentBranch($this->resolve($item, ['branch', 'root', 'route']))
+            || $this->isCurrentRoot($this->resolve($item, ['root', 'route']))
+            || $this->isCurrentRoute($this->resolve($item, ['route']));
     }
 
-    public function isCurrentRoot(string $root): bool
+    private function resolve(array $item, array $keys)
+    {
+        foreach ($keys as $key) {
+            if (isset($item[$key])) {
+                return $item[$key];
+            }
+        }
+
+        return null;
+    }
+
+    public function isCurrentRoot(?string $root): bool
     {
         return $this->getCurrentAttribute('_root') === $root;
     }
 
-    public function isCurrentBranch(string $branch): bool
+    public function isCurrentBranch(?string $branch): bool
     {
         return $this->getCurrentAttribute('_branch') === $branch;
     }
 
-    public function isCurrentRoute(string $route): bool
+    public function isCurrentRoute(?string $route): bool
     {
         return $this->getCurrentAttribute('_route') === $route;
     }

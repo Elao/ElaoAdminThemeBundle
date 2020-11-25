@@ -36,18 +36,32 @@
                         </nav>
                     {% endblock %}
                     {% block nav_user %}
-                        <div class="user-menu drop drop--down">
-                            <button class="user-menu__button drop__button">
-                                {% block user_menu_label app.user|default('Jane doe') %}
-                            </button>
-                            <ul class="user-menu__content drop__menu">
-                                {#% set item_class = '' %#}
-                                {#% set item_active_class = '' %#}
-                                {% for item in menu_user|default([]) %}
-                                    {{ block('menu_item') }}
-                                {% endfor %}
-                            </ul>
-                        </div>
+                        {% if app.user %}
+                            {% block nav_user_authenticated %}
+                                <div class="user-menu drop drop--down">
+                                    <button class="user-menu__button drop__button">
+                                        {% block user_menu_label app.user|default('Jane doe') %}
+                                    </button>
+                                    <ul class="user-menu__content drop__menu">
+                                        {#% set item_class = '' %#}
+                                        {#% set item_active_class = '' %#}
+                                        {% for item in menu_user|default([]) %}
+                                            {{ block('menu_item') }}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endblock %}
+                        {% else %}
+                            {% block nav_user_anonymous %}
+                                <ul class="user-menu">
+                                    {% set item_class = 'user-menu__button' %}
+                                    {% set item_active_class = 'user-menu__button--active' %}
+                                    {% for item in menu_anonymous|default([]) %}
+                                        {{ block('menu_item') }}
+                                    {% endfor %}
+                                </ul>
+                            {% endblock %}
+                        {% endif %}
                     {% endblock %}
                     <button class="menu-button"></button>
                 </header>
@@ -126,7 +140,7 @@
                                     </nav>
                                 {% endif %}
                             {% endblock %}
-                            <div class="container">
+                            <div class="container {% block content_class '' %}">
                                 {% block content '' %}
                             </div>
                         </div>
