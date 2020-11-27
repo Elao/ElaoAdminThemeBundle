@@ -2,6 +2,18 @@
     "name": "elao/admin-theme-bundle",
     "description": "Twig template set for elao-admin",
     "type": "symfony-bundle",
+    "homepage": "https://github.com/Elao/ElaoAdminThemeBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Elao",
+            "homepage": "https://www.elao.com"
+        },
+        {
+            "name": "Thomas Jarrand",
+            "email": "thomas.jarrand@elao.com"
+        }
+    ],
     "require": {
         "php": "^7.4",
         "twig/twig": "^2.12|^3.0",
@@ -16,21 +28,22 @@
         "symfony/finder": "^5.1",
         "symfony/filesystem": "^5.1"
     },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Thomas Jarrand",
-            "email": "thomas.jarrand@elao.com"
-        }
-    ],
     "autoload": {
         "psr-4": {
             "Elao\\Bundle\\AdminThemeBundle\\": "."
-        }
+        },
     },
+    "prefer-stable": true,
+    "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
             "dev-master": "1.x-dev"
         }
+    },
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
     }
 }
