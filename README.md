@@ -88,7 +88,7 @@ Yourbase template should extends elao admin theme base:
 ### Drop
 
 ```twig
-{% embed "drop.html.twig" with {
+{% embed "@ElaoAdminTheme/components/drop.html.twig" with {
    menu: [
        { url: '#show', label: 'Consulter' },
        { url: '#edit', label: 'Éditer' },
