@@ -80,8 +80,10 @@ Yourbase template should extends elao admin theme base:
     { route: 'user_list_archived', label: 'Utilisateurs archivés' },
 ]%}
 
-{% block content %}
+{% block page_content %}
+<div class="container">
     {# ... #}
+</div>
 {% endblock %}
 ```
 
