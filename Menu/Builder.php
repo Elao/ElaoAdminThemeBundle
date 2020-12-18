@@ -43,6 +43,15 @@ class Builder
             || $this->isCurrentRoute($this->resolve($item, ['route']));
     }
 
+    public function isAccessible(array $item): bool
+    {
+        if (isset($item['access'])) {
+            return (bool) $item['access'];
+        }
+
+        return true;
+    }
+
     private function resolve(array $item, array $keys)
     {
         foreach ($keys as $key) {

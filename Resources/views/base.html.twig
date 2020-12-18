@@ -18,7 +18,7 @@
                         <ul>
                             {% set item_class = 'primary-nav__item' %}
                             {% set item_active_class = 'primary-nav__item--active' %}
-                            {% for item in menu_primary|default([]) %}
+                            {% for item in menu_primary|default([])|filter(item => item is accessible) %}
                                 {% block menu_item %}
                                     <li class="{{ item_class|default('') }} {{ item is active ? item_active_class|default('') : '' }}">
                                         {% block menu_item_link %}
@@ -67,7 +67,7 @@
         {% block nav_mobile %}
             <div class="mobile-nav">
                 <ul class="tree">
-                    {% for item in menu_mobile|default([]) %}
+                    {% for item in menu_mobile|default([])|filter(item => item is accessible) %}
                         <li class="mobile-nav__item mobile-nav__item--primary tree-item {{ item is active ? 'mobile-nav__item--active' : '' }}">
                             <a class="{{ item.children|default(false) ? 'tree-item__trigger' : '' }}" href="{{ menu_path(item) }}">
                                 {% if item.icon|default(false) %}
@@ -77,7 +77,7 @@
                             </a>
                             {% if item.children|default(false) %}
                                 <ul class="tree-item__content tree">
-                                    {% for secondary_item in item.children %}
+                                    {% for secondary_item in item.children|filter(item => item is accessible) %}
                                         <li class="mobile-nav__item tree-item mobile-nav__item--secondary {{ secondary_item is active ? 'mobile-nav__item--active' : '' }}">
                                             <a href="{{ menu_path(secondary_item) }}" class="{{ secondary_item.children|default(false) ? 'tree-item__trigger' : '' }}">
                                                 {% if secondary_item.icon|default(false) %}
@@ -87,7 +87,7 @@
                                             </a>
                                             {% if secondary_item.children|default(false) %}
                                                 <ul class="tree-item__content">
-                                                    {% for tertiary_item in secondary_item.children %}
+                                                    {% for tertiary_item in secondary_item.children|filter(item => item is accessible) %}
                                                         <li class="mobile-nav__item mobile-nav__item--tertiary {{ tertiary_item is active ? 'mobile-nav__item--active' : '' }}">
                                                             <a href="{{ menu_path(tertiary_item) }}">
                                                                 {% if tertiary_item.icon|default(false) %}
@@ -116,7 +116,7 @@
                             <ul>
                                 {% set item_class = 'secondary-nav__item' %}
                                 {% set item_active_class = 'secondary-nav__item--active' %}
-                                {% for item in menu_secondary %}
+                                {% for item in menu_secondary|filter(item => item is accessible) %}
                                     {{ block('menu_item') }}
                                 {% endfor %}
                             </ul>
@@ -132,7 +132,7 @@
                                     <ul>
                                         {% set item_class = 'tertiary-nav__item' %}
                                         {% set item_active_class = 'tertiary-nav__item--active' %}
-                                        {% for item in menu_tertiary %}
+                                        {% for item in menu_tertiary|filter(item => item is accessible) %}
                                             {{ block('menu_item') }}
                                         {% endfor %}
                                     </ul>

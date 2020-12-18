@@ -30,6 +30,7 @@ class MenuExtension extends AbstractExtension
             new TwigTest('active', [$this->builder, 'isActive']),
             new TwigTest('currentRoot', [$this->builder, 'isCurrentRoot']),
             new TwigTest('currentRoute', [$this->builder, 'isCurrentRoute']),
+            new TwigTest('accessible', [$this->builder, 'isAccessible']),
         ];
     }
 }
