@@ -90,17 +90,15 @@ Yourbase template should extends elao admin theme base:
 ### Drop
 
 ```twig
-{% embed "@ElaoAdminTheme/components/drop.html.twig" only %}
+{% embed "@ElaoAdminTheme/components/drop.html.twig" with {
+   menu: [
+       { url: '#show', label: 'Consulter' },
+       { url: '#edit', label: 'Éditer' },
+       { url: '#delete', label: 'Supprimer' },
+   ]
+} only %}
     {% block drop_direction 'left' %}
     {% block tooltip_direction 'top' %}
     {% block tooltip_label 'Choisir une action' %}
-    {% block drop_menu %}
-        {% set menu = [
-            { url: '#show', label: 'Consulter' },
-            { url: '#edit', label: 'Éditer' },
-            { url: '#delete', label: 'Supprimer' },
-        ] %}
-        {{ parent() }}
-    {% endblock %}
 {% endembed %}
 ```
