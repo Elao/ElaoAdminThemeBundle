@@ -1,0 +1,12 @@
+{% block menu_item %}
+    <li class="{{ item_class|default('') }} {{ item is active ? item_active_class|default('') : '' }}">
+        {% block menu_item_link %}
+            <a href="{{ menu_path(item) }}" class="{{ link_class|default('') }}">
+                {% if item.icon|default(false) %}
+                    <i class="icon icon--{{ item.icon }}" aria-hidden="true"></i>
+                {% endif %}
+                {{ item.label }}
+            </a>
+        {% endblock %}
+    </li>
+{% endblock %}

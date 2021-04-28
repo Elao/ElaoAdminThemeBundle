@@ -1,0 +1,44 @@
+{% block nav_mobile %}
+    <div class="mobile-nav">
+        <ul class="tree">
+            {% for item in menu|filter(item => item is accessible) %}
+                <li class="mobile-nav__item mobile-nav__item--primary tree-item {{ item is active ? 'mobile-nav__item--active' : '' }}">
+                    <a class="{{ item.children|default(false) ? 'tree-item__trigger' : '' }}" href="{{ menu_path(item) }}">
+                        {% if item.icon|default(false) %}
+                            <i class="icon icon--{{ item.icon }}" aria-hidden="true"></i>
+                        {% endif %}
+                        {{ item.label }}
+                    </a>
+                    {% if item.children|default(false) %}
+                        <ul class="tree-item__content tree">
+                            {% for secondary_item in item.children|filter(item => item is accessible) %}
+                                <li class="mobile-nav__item tree-item mobile-nav__item--secondary {{ secondary_item is active ? 'mobile-nav__item--active' : '' }}">
+                                    <a href="{{ menu_path(secondary_item) }}" class="{{ secondary_item.children|default(false) ? 'tree-item__trigger' : '' }}">
+                                        {% if secondary_item.icon|default(false) %}
+                                            <i class="icon icon--{{ secondary_item.icon }}" aria-hidden="true"></i>
+                                        {% endif %}
+                                        {{ secondary_item.label }}
+                                    </a>
+                                    {% if secondary_item.children|default(false) %}
+                                        <ul class="tree-item__content">
+                                            {% for tertiary_item in secondary_item.children|filter(item => item is accessible) %}
+                                                <li class="mobile-nav__item mobile-nav__item--tertiary {{ tertiary_item is active ? 'mobile-nav__item--active' : '' }}">
+                                                    <a href="{{ menu_path(tertiary_item) }}">
+                                                        {% if tertiary_item.icon|default(false) %}
+                                                            <i class="icon icon--{{ tertiary_item.icon }}" aria-hidden="true"></i>
+                                                        {% endif %}
+                                                        {{ tertiary_item.label }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

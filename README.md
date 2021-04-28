@@ -4,7 +4,6 @@
 
 ## Installation
 
-    composer config repositories.elao/admin-theme-bundle vcs https://github.com/Elao/ElaoAdminThemeBundle.git
     composer require elao/admin-theme-bundle
 
 ## Usage

@@ -1,0 +1,13 @@
+{% use "@ElaoAdminTheme/layout/menu_item.html.twig" %}
+
+{% block nav_secondary %}
+    <nav class="secondary-nav">
+        <ul>
+            {% set item_class = 'secondary-nav__item' %}
+            {% set item_active_class = 'secondary-nav__item--active' %}
+            {% for item in menu|filter(item => item is accessible) %}
+                {{ block('menu_item') }}
+            {% endfor %}
+        </ul>
+    </nav>
+{% endblock %}

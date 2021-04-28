@@ -5,150 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title '' %}</title>
     {% block stylesheets %}{% endblock %}
+    {% block javascripts %}{% endblock %}
 </head>
 <body>
     {% block body %}
         {% block header %}
             <header class="header">
                 {% block logo_link %}
-                    <a href="/" class="logo">{% block logo 'LOGO' %}</a>
+                    <a href="/" class="logo">
+                        {% block logo 'LOGO' %}
+                    </a>
                 {% endblock %}
-                {% block nav_primary %}
-                    <nav class="primary-nav">
-                        <ul>
-                            {% set item_class = 'primary-nav__item' %}
-                            {% set item_active_class = 'primary-nav__item--active' %}
-                            {% for item in menu_primary|default([])|filter(item => item is accessible) %}
-                                {% block menu_item %}
-                                    <li class="{{ item_class|default('') }} {{ item is active ? item_active_class|default('') : '' }}">
-                                        {% block menu_item_link %}
-                                            <a href="{{ menu_path(item) }}" class="{{ link_class|default('') }}">
-                                                {% if item.icon|default(false) %}
-                                                    <i class="icon icon--{{ item.icon }}" aria-hidden="true"></i>
-                                                {% endif %}
-                                                {{ item.label }}
-                                            </a>
-                                        {% endblock %}
-                                    </li>
-                                {% endblock %}
-                            {% endfor %}
-                        </ul>
-                    </nav>
-                {% endblock %}
-                {% block nav_user %}
-                    {% if app.user %}
-                        {% block nav_user_authenticated %}
-                            <div class="user-menu drop drop--down">
-                                <button class="user-menu__button drop__button">
-                                    {% block user_menu_label app.user|default('Jane doe') %}
-                                </button>
-                                <ul class="user-menu__content drop__menu">
-                                    {% for item in menu_user|default([]) %}
-                                        {{ block('menu_item') }}
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        {% endblock %}
-                    {% else %}
-                        {% block nav_user_anonymous %}
-                            <ul class="user-menu">
-                                {% set item_class = 'user-menu__button' %}
-                                {% set item_active_class = 'user-menu__button--active' %}
-                                {% for item in menu_anonymous|default([]) %}
-                                    {{ block('menu_item') }}
-                                {% endfor %}
-                            </ul>
-                        {% endblock %}
-                    {% endif %}
-                {% endblock %}
+                {% include '@ElaoAdminTheme/layout/nav_primary.html.twig' with { menu: menu_primary|default([]) } %}
+                {% include '@ElaoAdminTheme/layout/nav_user.html.twig' with { user: app.user } %}
                 <button class="menu-button"></button>
             </header>
         {% endblock %}
-        {% block nav_mobile %}
-            <div class="mobile-nav">
-                <ul class="tree">
-                    {% for item in menu_mobile|default([])|filter(item => item is accessible) %}
-                        <li class="mobile-nav__item mobile-nav__item--primary tree-item {{ item is active ? 'mobile-nav__item--active' : '' }}">
-                            <a class="{{ item.children|default(false) ? 'tree-item__trigger' : '' }}" href="{{ menu_path(item) }}">
-                                {% if item.icon|default(false) %}
-                                    <i class="icon icon--{{ item.icon }}" aria-hidden="true"></i>
-                                {% endif %}
-                                {{ item.label }}
-                            </a>
-                            {% if item.children|default(false) %}
-                                <ul class="tree-item__content tree">
-                                    {% for secondary_item in item.children|filter(item => item is accessible) %}
-                                        <li class="mobile-nav__item tree-item mobile-nav__item--secondary {{ secondary_item is active ? 'mobile-nav__item--active' : '' }}">
-                                            <a href="{{ menu_path(secondary_item) }}" class="{{ secondary_item.children|default(false) ? 'tree-item__trigger' : '' }}">
-                                                {% if secondary_item.icon|default(false) %}
-                                                    <i class="icon icon--{{ secondary_item.icon }}" aria-hidden="true"></i>
-                                                {% endif %}
-                                                {{ secondary_item.label }}
-                                            </a>
-                                            {% if secondary_item.children|default(false) %}
-                                                <ul class="tree-item__content">
-                                                    {% for tertiary_item in secondary_item.children|filter(item => item is accessible) %}
-                                                        <li class="mobile-nav__item mobile-nav__item--tertiary {{ tertiary_item is active ? 'mobile-nav__item--active' : '' }}">
-                                                            <a href="{{ menu_path(tertiary_item) }}">
-                                                                {% if tertiary_item.icon|default(false) %}
-                                                                    <i class="icon icon--{{ tertiary_item.icon }}" aria-hidden="true"></i>
-                                                                {% endif %}
-                                                                {{ tertiary_item.label }}
-                                                            </a>
-                                                        </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            {% endif %}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endblock %}
+        {% include '@ElaoAdminTheme/layout/nav_mobile.html.twig' with { menu: menu_mobile|default([]) } %}
         {% block main %}
             <main>
-                {% block nav_secondary %}
-                    {% if menu_secondary is defined %}
-                        <nav class="secondary-nav">
-                            <ul>
-                                {% set item_class = 'secondary-nav__item' %}
-                                {% set item_active_class = 'secondary-nav__item--active' %}
-                                {% for item in menu_secondary|filter(item => item is accessible) %}
-                                    {{ block('menu_item') }}
-                                {% endfor %}
-                            </ul>
-                        </nav>
-                    {% endif %}
-                {% endblock %}
+                {% if menu_secondary is defined %}
+                    {% include '@ElaoAdminTheme/layout/nav_secondary.html.twig' with { menu: menu_secondary } %}
+                {% endif %}
                 {% block content %}
                     <div class="content">
-                        {% block flash include('@ElaoAdminTheme/components/flash.html.twig') %}
-                        {% block nav_tertiary %}
-                            {% if menu_tertiary is defined %}
-                                <nav class="tertiary-nav">
-                                    <ul>
-                                        {% set item_class = 'tertiary-nav__item' %}
-                                        {% set item_active_class = 'tertiary-nav__item--active' %}
-                                        {% for item in menu_tertiary|filter(item => item is accessible) %}
-                                            {{ block('menu_item') }}
-                                        {% endfor %}
-                                    </ul>
-                                </nav>
-                            {% endif %}
-                        {% endblock %}
+                        {% include '@ElaoAdminTheme/components/flash.html.twig' %}
+                        {% if menu_tertiary is defined %}
+                            {% include '@ElaoAdminTheme/layout/nav_secondary.html.twig' with { menu: menu_tertiary } %}
+                        {% endif %}
                         {% block page_content %}
-                            <div class="container">
-
-                            </div>
+                            <div class="container"></div>
                         {% endblock %}
                     </div>
                 {% endblock %}
             </main>
         {% endblock %}
     {% endblock %}
-    {% block javascripts %}{% endblock %}
 </body>
 </html>

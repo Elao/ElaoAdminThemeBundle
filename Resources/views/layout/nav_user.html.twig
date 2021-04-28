@@ -1,0 +1,28 @@
+{% use "@ElaoAdminTheme/layout/menu_item.html.twig" %}
+
+{% block nav_user %}
+    {% if user is defined and user %}
+        {% block nav_user_authenticated %}
+            <div class="user-menu drop drop--down">
+                <button class="user-menu__button drop__button">
+                    {% block user_menu_label user|default('') %}
+                </button>
+                <ul class="user-menu__content drop__menu">
+                    {% for item in menu_user|default(menu)|default([]) %}
+                        {{ block('menu_item') }}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endblock %}
+    {% else %}
+        {% block nav_user_anonymous %}
+            <ul class="user-menu">
+                {% set item_class = 'user-menu__button' %}
+                {% set item_active_class = 'user-menu__button--active' %}
+                {% for item in menu_anonymous|default(menu)|default([]) %}
+                    {{ block('menu_item') }}
+                {% endfor %}
+            </ul>
+        {% endblock %}
+    {% endif %}
+{% endblock %}
