@@ -65,12 +65,12 @@ class Builder
 
     public function isCurrentRoot(?string $root): bool
     {
-        return $this->getCurrentAttribute('_root') === $root;
+        return $this->getCurrentAttribute('_menu_root') === $root;
     }
 
     public function isCurrentBranch(?string $branch): bool
     {
-        return $this->getCurrentAttribute('_branch') === $branch;
+        return $this->getCurrentAttribute('_menu_branch') === $branch;
     }
 
     public function isCurrentRoute(?string $route): bool
