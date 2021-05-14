@@ -1,0 +1,123 @@
+{% use 'form_div_layout.html.twig' %}
+
+{% set translation_domain = 'forms' %}
+
+{%- block form_widget_compound -%}
+    {% if form.parent != null %}<div {{ block('widget_container_attributes') }}>{% endif %}
+        {%- if form is rootform -%}
+            {{ form_errors(form) }}
+        {%- endif -%}
+        {{- block('form_rows') -}}
+        {{- form_rest(form) -}}
+    {% if form.parent != null %}</div>{% endif %}
+{%- endblock form_widget_compound -%}
+
+{%- block choice_widget_collapsed -%}
+    {% set classique_select = not multiple and not attr['data-choice']|default(false) %}
+    {% if classique_select %}<div class="select">{% endif %}
+        {{- parent() -}}
+    {% if classique_select %}</div>{% endif %}
+{%- endblock -%}
+
+{%- block form_row -%}
+    {%- set row_class = row_class|default('form') -%}
+    {%- set row_attr = row_attr|merge({ class: row_class ~ (errors|length > 0  ? ' form--error' : '') }) -%}
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
+    <div{% with {attr: row_attr} %}{{ block('attributes') }}{% endwith %}>
+        {{- form_label(form) -}}
+        {{- form_widget(form, widget_attr) -}}
+        {{- form_help(form) -}}
+        {{- form_errors(form) -}}
+        {%- if delete_button is defined and delete_button -%}
+            {{- block('collection_delete') -}}
+        {%- endif -%}
+    </div>
+{%- endblock form_row -%}
+
+{%- block choice_widget_expanded -%}
+    <div {{ block('widget_container_attributes') }}>
+    {%- for child in form %}
+        {{- form_row(child) -}}
+    {% endfor -%}
+    </div>
+{%- endblock choice_widget_expanded -%}
+
+{%- block checkbox_row -%}
+    {%- set row_attr = row_attr|merge({ class: 'form checkbox' }) -%}
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
+    <div{% with {attr: row_attr} %}{{ block('attributes') }}{% endwith %}>
+        {{- form_widget(form, widget_attr) -}}
+        {{- form_label(form) -}}
+        {{- form_help(form) -}}
+        {{- form_errors(form) -}}
+    </div>
+{%- endblock checkbox_row -%}
+
+{%- block button_row -%}
+    {{- form_widget(form) -}}
+{%- endblock button_row -%}
+
+{%- block button_widget -%}
+    {%- set attr = attr|merge({ class: attr.class|default('') ~ ' button button--primary' }) -%}
+    {{- parent() -}}
+{%- endblock button_widget -%}
+
+{%- block form_errors -%}
+{%- for error in errors -%}
+    <span class="error">{{ error.message }}</span>
+{%- endfor -%}
+{%- endblock form_errors -%}
+
+{%- block collection_widget -%}
+    {%- set attr = attr|merge({ class: attr.class|default('') ~ ' collection' }) -%}
+    {%- set delete_button = allow_delete ? label_delete : false -%}
+    {% if prototype is defined and not prototype.rendered %}
+        {%- set attr = attr|merge({'data-prototype': form_row(prototype, { delete_button: delete_button }) }) -%}
+    {% endif %}
+    <div {{ block('widget_container_attributes') }}>
+        {%- if form is rootform -%}
+            {{ form_errors(form) }}
+        {%- endif -%}
+        {% for child in form|filter(child => not child.rendered) %}
+            {{- form_row(child, { delete_button: delete_button }) -}}
+        {% endfor %}
+        {{- form_rest(form) -}}
+    </div>
+    {%- if allow_add -%}
+        <button type="button" class="button button--neutral collection-add" data-collection-add="{{ id }}">
+            {{ label_add|trans({}, translation_domain) }}
+        </button>
+    {%- endif -%}
+{%- endblock collection_widget -%}
+
+{%- block collection_delete -%}
+<button type="button" class="collection-delete tooltip tooltip--top" data-collection-delete="{{ id }}" data-tooltip="{{ delete_button|trans({}, translation_domain) }}">
+    <span class="icon-cross"></span>
+</button>
+{%- endblock -%}
+
+{# Choices.js #}
+
+{%- block choices_row -%}
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
+    <div{% with {attr: row_attr} %}{{ block('attributes') }}{% endwith %}>
+        {{- form_label(form) -}}
+        {{- form_errors(form) -}}
+        {{- form_widget(form, widget_attr) -}}
+        {{- form_help(form) -}}
+    </div>
+{%- endblock choices_row -%}
+
+{%- block choices_widget -%}
+    {%- set type = type|default('text') -%}
+    <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{%- endblock choices_widget -%}

@@ -1,0 +1,17 @@
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        {% for item in breadcrumb %}
+            {% if loop.last %}
+                <li class="breadcrumb__item">
+                    <span>{{ item.label|default(item) }}</span>
+                </li>
+            {% else %}
+                <li class="breadcrumb__item">
+                    <a href="{{ menu_path(item) }}">
+                        {{ item.label }}
+                    </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}
