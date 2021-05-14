@@ -65,11 +65,19 @@ class Builder
 
     public function isCurrentRoot(?string $root): bool
     {
+        if (is_null($root)) {
+            return false;
+        }
+
         return $this->getCurrentAttribute('_menu_root') === $root;
     }
 
     public function isCurrentBranch(?string $branch): bool
     {
+        if (is_null($branch)) {
+            return false;
+        }
+
         return $this->getCurrentAttribute('_menu_branch') === $branch;
     }
 
