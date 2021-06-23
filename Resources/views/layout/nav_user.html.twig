@@ -5,6 +5,7 @@
         {% block nav_user_authenticated %}
             <div class="user-menu drop drop--down">
                 <button class="user-menu__button drop__button">
+                    {% block user_menu_icon %}<span class="icon icon--user"></span>{% endblock %}
                     {% block user_menu_label user|default('') %}
                 </button>
                 <ul class="user-menu__content drop__menu">
