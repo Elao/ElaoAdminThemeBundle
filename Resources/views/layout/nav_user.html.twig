@@ -9,7 +9,7 @@
                     {% block user_menu_label user|default('') %}
                 </button>
                 <ul class="user-menu__content drop__menu">
-                    {% for item in menu_user|default(menu)|default([]) %}
+                    {% for item in menu_user|default(menu|default([])) %}
                         {{ block('menu_item') }}
                     {% endfor %}
                 </ul>
@@ -20,7 +20,7 @@
             <ul class="user-menu">
                 {% set item_class = 'user-menu__button' %}
                 {% set item_active_class = 'user-menu__button--active' %}
-                {% for item in menu_anonymous|default(menu)|default([]) %}
+                {% for item in menu_anonymous|default(menu|default([])) %}
                     {{ block('menu_item') }}
                 {% endfor %}
             </ul>
