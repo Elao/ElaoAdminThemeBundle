@@ -21,6 +21,7 @@ class MenuExtension extends AbstractExtension
         return [
             new TwigFunction('menu_path', [$this->builder, 'getMenuPath']),
             new TwigFunction('url_add', [$this->builder, 'addParametersToCurrentUrl']),
+            new TwigFunction('url_current', [$this->builder, 'getCurrentUrl']),
         ];
     }
 

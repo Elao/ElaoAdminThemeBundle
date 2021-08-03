@@ -86,7 +86,7 @@ class Builder
         return $this->getCurrentAttribute('_route') === $route;
     }
 
-    public function addParametersToCurrentUrl(array $parameters, int $referenceType = null): string
+    public function addParametersToCurrentUrl(array $parameters, int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
         return $this->urlGenerator->generate(
             $this->getCurrentAttribute('_route'),
@@ -95,6 +95,15 @@ class Builder
                 $this->getCurrentQuery(),
                 $parameters
             ),
+            $referenceType
+        );
+    }
+
+    public function getCurrentUrl(int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
+    {
+        return $this->urlGenerator->generate(
+            $this->getCurrentAttribute('_route'),
+            $this->getCurrentAttribute('_route_params'),
             $referenceType
         );
     }
