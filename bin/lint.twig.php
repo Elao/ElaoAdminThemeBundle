@@ -8,8 +8,10 @@ use Symfony\Component\Console\Application;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
+$environment = new Environment(new FilesystemLoader());
+
 (new Application('twig/lint'))
-    ->add(new LintCommand(new Environment(new FilesystemLoader())))
+    ->add(new LintCommand($environment))
     ->getApplication()
     ->setDefaultCommand('lint:twig', true)
     ->run();
