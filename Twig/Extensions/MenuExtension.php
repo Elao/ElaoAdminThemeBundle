@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Elao\Bundle\AdminThemeBundle\Twig\Extensions;
 
 use Elao\Bundle\AdminThemeBundle\Menu\Builder;
